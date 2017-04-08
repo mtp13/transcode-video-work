@@ -29,7 +29,7 @@ def setClipboardData(data):
     p.communicate(data)
 
 
-QUEUE = '/Volumes/Media Disk/work/queue.txt'
+QUEUE = '/Volumes/Media Disk/transcode-video-work/queue.txt'
 DVD_FOLDER = '/Volumes/Media Disk/DVD Backups/'
 
 ascript = """

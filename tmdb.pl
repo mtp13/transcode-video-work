@@ -16,8 +16,8 @@ use autodie;
 # write the new $dvd_title to the file
 # and copy it to the clipboard
 
-my $QUEUE = '/Volumes/Media Disk/work/queue.txt';
-my $NEW_QUEUE = '/Volumes/Media Disk/work/new_queue.txt';
+my $QUEUE = '/Volumes/Media Disk/transcode-video-work/queue.txt';
+my $NEW_QUEUE = '/Volumes/Media Disk/transcode-video-work/new_queue.txt';
 my $DVD_FOLDER = '/Volumes/Media Disk/DVD Backups/';
 
 $script = <<'END_SCRIPT';

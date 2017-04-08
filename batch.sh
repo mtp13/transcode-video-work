@@ -34,7 +34,7 @@ input="$(sed -n 1p "$queue")"
 while [ "$input" ]; do
     title_name="$(basename "$input" | sed 's/\.[^.]*$//')"
     crop_file="$crops/${title_name}.txt"
-    
+
     if [ -f "$crop_file" ]; then
         crop_option="--crop $(cat "$crop_file")"
     else
@@ -43,9 +43,9 @@ while [ "$input" ]; do
 
     sed -i '' 1d "$queue" || exit 1
 
-    transcode-video --quick --output "/Volumes/Media Disk/work/transcoded/" $crop_option "$input"
-    
-    cp  "/Volumes/Media Disk/work/transcoded/${title_name}.mkv" "/Users/mtp/Media/Movies/${title_name}.mkv"
-    
+    transcode-video --quick --output "/Volumes/Media Disk/transcode-video-work/transcoded/" $crop_option "$input"
+
+    cp  "/Volumes/Media Disk/transcode-video-work/transcoded/${title_name}.mkv" "/Users/mtp/Media/Movies/${title_name}.mkv"
+
     input="$(sed -n 1p "$queue")"
 done
