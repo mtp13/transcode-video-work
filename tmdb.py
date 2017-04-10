@@ -20,15 +20,17 @@ from unidecode import unidecode
 def run_this_ascript(ascript, args=None):
     "Run the given AppleScript and return the standard output."
     args = args or []
-    pipe = Popen(['osascript', '-'] + args, stdin=PIPE, stdout=PIPE, stderr=PIPE)
-    stdout, stderr = pipe.communicate(ascript)
+    process = Popen(['osascript', '-'] + args, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    stdout, stderr = process.communicate(ascript)
+    if stderr:
+        print stderr
     return stdout
 
 
 def set_clipboard_data(data):
     "Copy the data to the system clipboard."
-    pipe = Popen(['pbcopy'], stdin=PIPE)
-    pipe.communicate(data)
+    process = Popen(['pbcopy'], stdin=PIPE)
+    process.communicate(data)
 
 
 QUEUE = '/Volumes/Media Disk/transcode-video-work/queue.txt'
