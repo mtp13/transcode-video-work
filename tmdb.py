@@ -11,16 +11,18 @@
 # write the new dvd_title to the file
 # and copy it to the clipboard
 
-import re
 import fileinput
-from subprocess import Popen, PIPE
+import re
+from subprocess import PIPE, Popen
+
 from unidecode import unidecode
 
 
 def run_this_ascript(ascript, args=None):
     "Run the given AppleScript and return the standard output."
     args = args or []
-    process = Popen(['osascript', '-'] + args, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+    process = Popen(['osascript', '-'] + args,
+                    stdin=PIPE, stdout=PIPE, stderr=PIPE)
     stdout, stderr = process.communicate(ascript)
     if stderr:
         print stderr
