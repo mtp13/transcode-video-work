@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 "Get the DVD title from Safari and save to the queue file."
 # Anchorman The Legend of Ron Burgundy (2004) - The Movie Database (TMDb)
 #
@@ -13,7 +13,7 @@
 
 import fileinput
 import re
-from subprocess import PIPE, Popen
+import subprocess
 
 from unidecode import unidecode
 
@@ -21,17 +21,15 @@ from unidecode import unidecode
 def run_this_ascript(ascript, args=None):
     "Run the given AppleScript and return the standard output."
     args = args or []
-    process = Popen(['osascript', '-'] + args,
-                    stdin=PIPE, stdout=PIPE, stderr=PIPE)
-    stdout, stderr = process.communicate(ascript)
-    if stderr:
-        print stderr
-    return stdout
+    process = subprocess.run(['osascript', '-e', ascript] + args,
+                             stdout=subprocess.PIPE, encoding='utf-8')
+    return process.stdout
 
 
 def set_clipboard_data(data):
     "Copy the data to the system clipboard."
-    process = Popen(['pbcopy'], stdin=PIPE)
+    process = subprocess.Popen(['pbcopy'], stdin=subprocess.PIPE,
+                               encoding='utf-8')
     process.communicate(data)
 
 
@@ -44,16 +42,16 @@ set theTitle to the name of the front document
 end tell
 """
 DVD_TITLE = run_this_ascript(ASCRIPT)
-DVD_TITLE = unidecode(unicode(DVD_TITLE, 'utf-8'))
+DVD_TITLE = unidecode(DVD_TITLE)
 
 DVD_TITLE = re.sub(r'[^a-zA-Z0-9()! \-]', '', DVD_TITLE)
 DVD_TITLE = re.sub(r' -- .*', '', DVD_TITLE)
 
 for line in fileinput.input(QUEUE, inplace=1):
-    if re.search(r'\S', line):
-        print line.strip()
+    if line.rstrip():
+        print(line.strip())
 with open(QUEUE, 'a') as q:
     q.write(DVD_FOLDER + DVD_TITLE + '.mkv\n')
-print DVD_FOLDER + DVD_TITLE + '.mkv'
+print(DVD_FOLDER + DVD_TITLE + '.mkv')
 
 set_clipboard_data(DVD_TITLE)
